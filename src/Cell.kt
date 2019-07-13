@@ -1,13 +1,21 @@
 package dev.matsem.kata3
 
-inline class Cell(val isAlive: Boolean) {
+sealed class Cell {
+
     companion object {
         const val CHARACTER_ALIVE = '*'
         const val CHARACTER_DEAD = '.'
 
-        fun from(char: Char) = Cell(isAlive = char == CHARACTER_ALIVE)
+        fun from(char: Char) = if (char == CHARACTER_ALIVE) AliveCell else DeadCell
     }
 
-    val character: Char
-        get() = if (isAlive) CHARACTER_ALIVE else CHARACTER_DEAD
+    abstract fun character(): Char
+}
+
+object AliveCell : Cell() {
+    override fun character() = CHARACTER_ALIVE
+}
+
+object DeadCell : Cell() {
+    override fun character() = CHARACTER_DEAD
 }

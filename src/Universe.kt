@@ -7,17 +7,16 @@ class Universe(
 ) {
 
     fun nextGeneration() {
-        val nextGeneration = Array(height) { Array(width) { Cell(false) } }
+        val nextGeneration = Array(height) { Array<Cell>(width) { DeadCell } }
 
         for (y in 0 until height) {
             for (x in 0 until width) {
                 val neighborCount = neighborCount(y, x)
 
                 nextGeneration[y][x] = when {
-                    cells[y][x].isAlive && neighborCount == 2 -> Cell(true)
-                    cells[y][x].isAlive && neighborCount == 3 -> Cell(true)
-                    !cells[y][x].isAlive && neighborCount == 3 -> Cell(true)
-                    else -> Cell(false)
+                    cells[y][x] is AliveCell && neighborCount in 2..3 -> AliveCell
+                    cells[y][x] is DeadCell && neighborCount == 3 -> AliveCell
+                    else -> DeadCell
                 }
             }
         }
@@ -30,7 +29,7 @@ class Universe(
             println(row.joinToString(
                 separator = "",
                 transform = { cell ->
-                    "${cell.character}"
+                    "${cell.character()}"
                 }
             ))
         }
@@ -50,7 +49,7 @@ class Universe(
                     continue
                 }
 
-                if (cells[y][x].isAlive) {
+                if (cells[y][x] is AliveCell) {
                     count++
                 }
             }
