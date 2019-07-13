@@ -13,5 +13,11 @@ class GameOfLife {
 
         println("Zygote")
         universe.print()
+
+        for(i in 1..10) {
+            println("Generation: $i")
+            universe.nextGeneration()
+            universe.print()
+        }
     }
 }
