@@ -24,17 +24,6 @@ class Universe(
         cells = nextGeneration
     }
 
-    fun print() {
-        cells.forEach { row ->
-            println(row.joinToString(
-                separator = "",
-                transform = { cell ->
-                    "${cell.character()}"
-                }
-            ))
-        }
-    }
-
     private fun neighborCount(atY: Int, atX: Int): Int {
         var count = 0
         for (y in (atY - 1)..(atY + 1)) {
@@ -56,5 +45,19 @@ class Universe(
         }
 
         return count
+    }
+
+    override fun toString(): String {
+        return cells.joinToString(
+            separator = "\n",
+            transform = { row ->
+                row.joinToString(
+                    separator = "",
+                    transform = { cell ->
+                        "${cell.character()}"
+                    }
+                )
+            }
+        )
     }
 }
